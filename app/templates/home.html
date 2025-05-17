@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}home{% endblock %}
+{% block content %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ url_for('auth.login') }}">Login</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+</ul>
+{% endblock %}
