@@ -9,7 +9,7 @@ def login():
 
 @auth_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
-    return auth_service.logout_user()
+    return auth_service.logout_user_from_session()
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():

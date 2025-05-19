@@ -2,7 +2,7 @@
 {% block title %}Login{% endblock %}
 {% block content %}
     <div class="d-flex flex-column align-items-center justify-content-center vh-100 w-100">
-        <form method="POST" action="login" class="w-100">
+        <form method="POST" action="{{ url_for('auth.login') }}" class="w-100">
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">

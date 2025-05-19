@@ -6,36 +6,56 @@ from app.db import db
 
 
 def login_user_to_session():
-    user = user_services.get_user_by_email(request.form.get('email'))
+    if request.method != 'POST':
+        return render_template('login.html')
+
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user = user_services.get_user_by_email(email)
+
     if not user:
-        flash('usuário não encontrado')
-    if request.method == 'POST' and user.verify_password(request.form.get('password')):
-        login_user(user)
-        flash('usuário logado com sucesso')
-        return redirect(url_for('home.index'))
-    flash('Email ou senha incorretos')
-    return render_template('login.html')
+        flash('Usuário não encontrado', 'danger')
+        return render_template('login.html')
+
+    if not user.verify_password(password):
+        flash('Email ou senha incorretos', 'danger')
+        return render_template('login.html')
+
+    login_user(user)
+    flash('Usuário logado com sucesso', 'success')
+    return redirect(url_for('home.index'))
 
 def register_user():
+    if request.method != 'POST':
+        return render_template('register.html')
+
     username = request.form.get('username')
     email = request.form.get('email')
     password = request.form.get('password')
-    db_user = User(username=username, email=email, password=password)
-    if not user_services.check_if_user_exists(db_user, email):
+
+    if not username or not email or not password:
+        flash('todos os campos são obrigatórios')
+        return redirect(url_for('auth.register'))
+
+    if user_services.check_if_user_exists(email):
         flash('usuário já existe')
         return redirect(url_for('auth.login'))
-    if request.method == 'POST':
-        db.session.add(db_user)
-        db.session.commit()
-        login_user()
-        flash('usuário registrado com sucesso')
-        return redirect(url_for('home.html'))
 
-    return render_template('register.html')
+    db_user = User(username=username, email=email, password=password)
 
-def logout_user():
+    db.session.add(db_user)
+    db.session.commit()
+    db.session.refresh(db_user)
+
+    login_user(db_user)
+
+    flash('usuário registrado com sucesso')
+    return redirect(url_for('home.index'))
+
+def logout_user_from_session():
     logout_user()
     flash('usuário deslogado com sucesso')
-    return redirect(url_for('home.html'))
+    return redirect(url_for('home.index'))
 
 
