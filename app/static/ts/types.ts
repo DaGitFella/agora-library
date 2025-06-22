@@ -9,11 +9,6 @@ export interface LoginForm {
     password: string
 }
 
-export interface UpdateForm {
-    name: string
-    email: string
-}
-
 export interface ApiResponse {
     success: boolean
     message?: string

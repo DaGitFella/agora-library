@@ -7,9 +7,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a, _b, _c;
 import { FlashMessage } from "./FlashMessages.js";
+const form = document.getElementById('profileForm');
 const delete_btn = document.querySelector("#deleteBtn");
 const flash = new FlashMessage('flash-messages');
+const submitBtn = document.querySelector("#submitBtn");
+const initialData = {
+    username: (_a = form.elements.namedItem('username')) === null || _a === void 0 ? void 0 : _a.value.trim(),
+    email: (_b = form.elements.namedItem('email')) === null || _b === void 0 ? void 0 : _b.value.trim(),
+    password: (_c = form.elements.namedItem('password')) === null || _c === void 0 ? void 0 : _c.value.trim(),
+};
 function handleDelete() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -31,6 +39,50 @@ function handleDelete() {
         }
     });
 }
+function handleUpdate() {
+    return __awaiter(this, void 0, void 0, function* () {
+        var _a, _b, _c;
+        const formData = {
+            username: ((_a = form.elements.namedItem('username')) === null || _a === void 0 ? void 0 : _a.value.trim()) || '',
+            email: ((_b = form.elements.namedItem('email')) === null || _b === void 0 ? void 0 : _b.value.trim()) || '',
+            password: ((_c = form.elements.namedItem('password')) === null || _c === void 0 ? void 0 : _c.value.trim()) || '',
+        };
+        try {
+            const response = yield fetch('/api/users/me', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            const result = yield response.json();
+            if (result.success && response.ok) {
+                flash.show(result.message || 'Atualizado com sucesso', 'success');
+            }
+            else {
+                flash.show(result.error || 'Erro inesperado', 'error');
+            }
+        }
+        catch (e) {
+            flash.show('erro inesperado', 'error');
+        }
+    });
+}
+function checkChanges() {
+    var _a, _b, _c;
+    const currentData = {
+        username: ((_a = form.elements.namedItem('username')) === null || _a === void 0 ? void 0 : _a.value.trim()) || "",
+        email: ((_b = form.elements.namedItem('email')) === null || _b === void 0 ? void 0 : _b.value.trim()) || "",
+        password: ((_c = form.elements.namedItem('password')) === null || _c === void 0 ? void 0 : _c.value.trim()) || "",
+    };
+    const changed = currentData.username !== initialData.username ||
+        currentData.email !== initialData.email ||
+        currentData.password !== initialData.password;
+    submitBtn.disabled = !changed;
+}
 delete_btn === null || delete_btn === void 0 ? void 0 : delete_btn.addEventListener('click', () => {
     handleDelete();
 });
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handleUpdate();
+});
+form.addEventListener('input', checkChanges);

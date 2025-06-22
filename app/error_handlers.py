@@ -32,7 +32,7 @@ def register_error_handlers(app, login_manager):
     def integrity(error):
         return jsonify({
             'success': False,
-            'error': 'Email já em uso',
+            'error': 'O recurso já existe',
         }), 409
 
     @login_manager.unauthorized_handler

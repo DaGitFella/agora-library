@@ -42,8 +42,11 @@ def register_user():
     if not username or not email or not password:
         abort(422)
 
-    if user_services.check_integrity(email):
-        abort(409)
+    if user_services.check_integrity('email', email):
+        return jsonify({
+            'success': False,
+            'message': 'O email já existe',
+        })
 
     db_user = User(username=username, email=email, password=password)
 
