@@ -16,11 +16,14 @@ def login_user_to_session():
     if not user:
         return jsonify({
             'sucess': False,
-            'message': 'user not found',
-        }), 404
+            'message': 'Email ou senha incorretos',
+        }), 401
 
     if not user.verify_password(password):
-        abort(401)
+        return jsonify({
+            'sucess': False,
+            'message': 'Email ou senha incorretos',
+        }), 401
 
     login_user(user)
 

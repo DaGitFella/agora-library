@@ -1,22 +1,17 @@
 from flask import jsonify, render_template, request
+
 from app.db import db
 
-def register_error_handlers(app):
+def register_error_handlers(app, login_manager):
     @app.errorhandler(404)
     def not_found(error):
-        if request.accept_mimetypes.accept_json \
-                and not request.accept_mimetypes.accept_html:
-            return jsonify({
-                'success': False,
-                'error': 'Recurso não encontrado',
-            }), 404
         return render_template("errors/error_404.html"), 404
 
     @app.errorhandler(401)
     def unauthorized(error):
         return jsonify({
             'success': False,
-            'error': 'Email ou senha incorretos',
+            'error': 'Not enough permissions',
         }), 401
 
     @app.errorhandler(422)
@@ -32,6 +27,14 @@ def register_error_handlers(app):
             'success': False,
             'error': 'Email já em uso',
         }), 409
+
+    @login_manager.unauthorized_handler
+    def login_manager_unauthorized():
+        return jsonify({
+            'success': False,
+            'error': 'Você precisa estar logado para acessar este recurso.'
+        }), 403
+
 
     @app.errorhandler(500)
     def internal_error(error):

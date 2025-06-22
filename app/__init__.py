@@ -18,7 +18,7 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     admin = Admin(app, name='agora_library', template_mode='bootstrap3')
-    # register_error_handlers(app)
+    register_error_handlers(app, login_manager)
 
     db.init_app(app)
     migrate.init_app(app, db)
