@@ -1,8 +1,9 @@
-from flask import jsonify, flash, request, abort
-
-from app.models.user import User
-from app.db import db
+from flask import flash, jsonify, request
 from flask_login import current_user
+
+from app.db import db
+from app.models.user import User
+
 
 def check_integrity(resource_name: str, resource):
     if resource_name not in {"username", "email"}:
@@ -12,15 +13,18 @@ def check_integrity(resource_name: str, resource):
         return True
     return False
 
+
 def get_user_or_404(email):
     db_user = db.session.execute(db.select(User).where(User.email == email)).scalar()
     if db_user:
         return db_user
     return None
 
+
 def get_all_users():
     users = User.query.all()
     return users
+
 
 def delete_me():
     db.session.delete(current_user)
@@ -29,6 +33,7 @@ def delete_me():
     return jsonify({
         'success': True,
     })
+
 
 def update_me():
     data = request.get_json()
@@ -63,5 +68,3 @@ def update_me():
         'success': True,
         'message': 'Usuário atualizado com sucesso',
     })
-
-

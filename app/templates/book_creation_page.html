@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Criar Livro{% endblock %}
+{% block content %}
+    <form>
+        <div class="mb-3">
+            <label for="title" class="form-label">título</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="mb-3">
+            <label for="genre" class="form-label">gênero</label>
+            <input type="text" class="form-control" id="genre" name="genre">
+        </div>
+        <div class="mb-3">
+            <label for="author" class="form-label">autor</label>
+            <input type="text" class="form-control" id="author" name="author">
+        </div>
+        <div class="mb-3">
+            <label for="publisher" class="form-label">editora</label>
+            <input type="text" class="form-control" id="publisher" name="publisher">
+        </div>
+        <div class="mb-3">
+            <label for="publication_date" class="form-label">data de publicação</label>
+            <input type="datetime-local" class="form-control" id="pubDate" name="pubData">
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">estado</label>
+            <select name="status" id="status">
+                <option value="new">novo</option>
+                <option value="semi-new">semi-novo</option>
+                <option value="used">usado</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="donated" class="form-label">Doado</label>
+            <input type="checkbox" class="form-check-input" id="donated" name="donate" value="True">
+        </div>
+        <div class="mb-3">
+            <label for="unitPrice" class="form-label">Preço unitário</label>
+            <input type="number" class="form-control" id="unitPrice" name="unitPrice">
+        </div>
+        <div class="mb-3">
+            <label for="stock" class="form-label">Estoque</label>
+            <input type="number" class="form-control" id="stock" name="stock">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

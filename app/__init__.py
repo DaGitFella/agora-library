@@ -1,17 +1,21 @@
 import flask_login
 from flask import Flask
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 
-from app.api import auth_controller, user_controller
+from app.api.auth_controller import auth_controller_bp
+from app.api.book_controller import book_controller_bp
+from app.api.user_controller import user_controller_bp
 from app.db import db, migrate
+from app.error_handlers import register_error_handlers
 from app.models import book as book
 from app.models import user as user
+from app.models.admin import AdminUserView, AdminView
 from app.models.user import User
-from app.models.admin import AdminView, AdminUserView
-from app.routes import auth_routes, home_routes, user_routes
+from app.routes.auth_routes import auth_bp
+from app.routes.book_routes import book_bp
+from app.routes.home_routes import home_bp
+from app.routes.user_routes import user_bp
 from config import Config
-from app.error_handlers import register_error_handlers
 
 login_manager = flask_login.LoginManager()
 
@@ -35,12 +39,15 @@ def create_app(config_class=Config):
 
     login_manager.login_view = 'auth.login'
 
-    app.register_blueprint(home_routes.home_bp)
-    app.register_blueprint(user_routes.user_bp, url_prefix='/users')
-    app.register_blueprint(auth_routes.auth_bp, url_prefix='/auth')
-    app.register_blueprint(auth_controller.auth_controller_bp,
+    app.register_blueprint(home_bp)
+    app.register_blueprint(user_bp, url_prefix='/users')
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(book_bp, url_prefix='/books')
+    app.register_blueprint(auth_controller_bp,
                            url_prefix='/api/auth')
-    app.register_blueprint(user_controller.user_controller_bp,
+    app.register_blueprint(user_controller_bp,
                            url_prefix='/api/users')
+    app.register_blueprint(book_controller_bp,
+                           url_prefix='/api/books')
 
     return app

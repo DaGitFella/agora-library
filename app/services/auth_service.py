@@ -1,4 +1,4 @@
-from flask import flash, jsonify, redirect, request, abort, url_for
+from flask import abort, flash, jsonify, redirect, request, url_for
 from flask_login import login_user, logout_user
 
 from app.db import db

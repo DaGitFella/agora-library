@@ -9,11 +9,13 @@
             <ul class="navbar-nav">
                 {% if not current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('auth_bp.login') }}">Login</a>
+                        <a class="nav-link active" aria-current="page"
+                           href="{{ url_for('auth_bp.login') }}">Login</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('auth_controller.logout') }}">
+                        <a class="nav-link active" aria-current="page"
+                           href="{{ url_for('auth_controller.logout') }}">
                             Logout
                         </a>
                     </li>
@@ -22,7 +24,7 @@
                     <a class="nav-link" href="{{ url_for('user_bp.me') }}">Perfil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="{{ url_for('book_bp.catalog') }}">Livros</a>
                 </li>
             </ul>
         </div>
