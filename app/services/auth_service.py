@@ -35,17 +35,17 @@ def login_user_to_session():
 
 def register_user():
     data = request.get_json()
-    name = data.get('name')
+    username = data.get('username')
     email = data.get('email')
     password = data.get('password')
 
-    if not name or not email or not password:
+    if not username or not email or not password:
         abort(422)
 
     if user_services.check_integrity(email):
         abort(409)
 
-    db_user = User(name=name, email=email, password=password)
+    db_user = User(username=username, email=email, password=password)
 
     db.session.add(db_user)
     db.session.commit()

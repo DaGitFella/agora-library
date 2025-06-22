@@ -20,17 +20,13 @@ def get_all_users():
     users = User.query.all()
     return users
 
-def delete_user():
-    user = db.session.execute(db.select(User).where(User.id == current_user.id)).scalar()
-    if user:
-        db.session.delete(user)
-        db.session.commit()
-        flash(f'user {current_user.name} deleted', 'success')
-        return jsonify({
-            'success': True,
-        })
-
+def delete_me():
+    db.session.delete(current_user)
+    db.session.commit()
+    flash(f'Usuário {current_user.username} deletado com sucesso', 'success')
     return jsonify({
-        'success': False,
-        'message': 'user not found',
-    }), 404
+        'success': True,
+    })
+
+def update_me():
+    ...

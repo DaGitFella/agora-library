@@ -1,4 +1,4 @@
-from flask import jsonify, render_template, request
+from flask import jsonify, render_template, request, flash, redirect, url_for
 
 from app.db import db
 
@@ -37,10 +37,8 @@ def register_error_handlers(app, login_manager):
 
     @login_manager.unauthorized_handler
     def login_manager_unauthorized():
-        return jsonify({
-            'success': False,
-            'error': 'Você precisa estar logado para acessar este recurso.'
-        }), 403
+        flash('Você precisa estar logado para acessar este recurso.', 'warning')
+        return redirect(url_for('auth_bp.login'))
 
 
     @app.errorhandler(500)

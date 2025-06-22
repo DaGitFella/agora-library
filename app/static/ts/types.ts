@@ -1,5 +1,5 @@
 export interface RegisterForm {
-    name: string
+    username: string
     email: string
     password: string
 }
@@ -7,6 +7,11 @@ export interface RegisterForm {
 export interface LoginForm {
     email: string
     password: string
+}
+
+export interface UpdateForm {
+    name: string
+    email: string
 }
 
 export interface ApiResponse {

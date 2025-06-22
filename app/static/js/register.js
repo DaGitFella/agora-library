@@ -13,7 +13,7 @@ const flash = new FlashMessage('flash-messages');
 function submitForm() {
     return __awaiter(this, void 0, void 0, function* () {
         const formData = {
-            name: form.elements.namedItem('name').value.trim(),
+            username: form.elements.namedItem('username').value.trim(),
             email: form.elements.namedItem('email').value.trim(),
             password: form.elements.namedItem('password').value.trim(),
         };
