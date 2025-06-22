@@ -5,7 +5,7 @@ const flash = new FlashMessage('flash-messages');
 
 async function handleDelete() {
     try {
-        const response = await fetch('/api/users/delete', {
+        const response = await fetch('/api/users', {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({})

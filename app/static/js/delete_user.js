@@ -13,7 +13,7 @@ const flash = new FlashMessage('flash-messages');
 function handleDelete() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch('/api/users/delete', {
+            const response = yield fetch('/api/users', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({})
