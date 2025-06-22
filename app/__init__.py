@@ -2,21 +2,23 @@ import flask_login
 from flask import Flask
 from flask_admin import Admin
 
-from app.api import auth_controller
-from app.routes import auth_routes, home_routes, user_routes
+from app.api import auth_controller, user_controller
 from app.db import db, migrate
 from app.models import book as book
 from app.models import user as user
 from app.models.user import User
+from app.routes import auth_routes, home_routes, user_routes
 from config import Config
+from app.error_handlers import register_error_handlers
 
 login_manager = flask_login.LoginManager()
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    admin = Admin(app, name='agora_library', template_mode='bootstrap3')
     app.config.from_object(config_class)
+    admin = Admin(app, name='agora_library', template_mode='bootstrap3')
+    # register_error_handlers(app)
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -31,6 +33,9 @@ def create_app(config_class=Config):
     app.register_blueprint(home_routes.home_bp)
     app.register_blueprint(user_routes.user_bp, url_prefix='/user')
     app.register_blueprint(auth_routes.auth_bp, url_prefix='/auth')
-    app.register_blueprint(auth_controller.auth_api_bp, url_prefix='/api/auth')
+    app.register_blueprint(auth_controller.auth_controller_bp,
+                           url_prefix='/api/auth')
+    app.register_blueprint(user_controller.user_controller_bp,
+                           url_prefix='/api/user')
 
     return app

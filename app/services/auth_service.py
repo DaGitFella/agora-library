@@ -1,4 +1,4 @@
-from flask import jsonify, redirect, render_template, request, url_for, flash
+from flask import flash, jsonify, redirect, request, abort, url_for
 from flask_login import login_user, logout_user
 
 from app.db import db
@@ -11,19 +11,16 @@ def login_user_to_session():
     email = data.get('email')
     password = data.get('password')
 
-    user = user_services.get_user_by_email(email)
+    user = user_services.get_user_or_404(email)
 
     if not user:
         return jsonify({
-            'success': False,
-            'error': 'Usuário não encontrado',
+            'sucess': False,
+            'message': 'user not found',
         }), 404
 
     if not user.verify_password(password):
-        return jsonify({
-            'success': False,
-            'error': 'Email ou senha incorretos'
-        }), 401
+        abort(401)
 
     login_user(user)
 
@@ -40,16 +37,10 @@ def register_user():
     password = data.get('password')
 
     if not name or not email or not password:
-        return jsonify({
-            'success': False,
-            'error': 'Todos os campos são obrigatórios'
-        }), 422
+        abort(422)
 
     if user_services.check_integrity(email):
-        return jsonify({
-            'success': False,
-            'error': 'O email já está em uso'
-        }), 409
+        abort(409)
 
     db_user = User(name=name, email=email, password=password)
 

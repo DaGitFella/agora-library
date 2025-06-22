@@ -13,7 +13,9 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('auth_api_bp.logout') }}">Logout</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('auth_controller.logout') }}">
+                            Logout
+                        </a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
