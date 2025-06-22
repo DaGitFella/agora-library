@@ -7,6 +7,7 @@ from app.db import db, migrate
 from app.models import book as book
 from app.models import user as user
 from app.models.user import User
+from app.models.admin import AdminView
 from app.routes import auth_routes, home_routes, user_routes
 from config import Config
 from app.error_handlers import register_error_handlers
@@ -17,7 +18,10 @@ login_manager = flask_login.LoginManager()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    admin = Admin(app, name='agora_library', template_mode='bootstrap3')
+    admin = Admin(app, name='agora_library',
+                  template_mode='bootstrap3',
+                  index_view=AdminView()
+                  )
     register_error_handlers(app, login_manager)
 
     db.init_app(app)
