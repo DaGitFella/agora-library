@@ -1,13 +1,14 @@
 import flask_login
 from flask import Flask
 from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 from app.api import auth_controller, user_controller
 from app.db import db, migrate
 from app.models import book as book
 from app.models import user as user
 from app.models.user import User
-from app.models.admin import AdminView
+from app.models.admin import AdminView, AdminUserView
 from app.routes import auth_routes, home_routes, user_routes
 from config import Config
 from app.error_handlers import register_error_handlers
@@ -22,8 +23,8 @@ def create_app(config_class=Config):
                   template_mode='bootstrap3',
                   index_view=AdminView()
                   )
+    admin.add_view(AdminUserView(User, db.session))
     register_error_handlers(app, login_manager)
-
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
