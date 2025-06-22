@@ -5,6 +5,7 @@ from app.controllers.auth_controller import auth_bp
 from app.controllers.home_controller import home_bp
 from app.controllers.user_controller import user_bp
 from app.db import db, migrate
+from app.models import user, book
 from app.models.user import User
 from config import Config
 
