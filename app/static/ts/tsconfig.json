@@ -2,8 +2,10 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "ESNext",
+    "outDir": "../js",
+    "rootDir": ".",
     "strict": true,
     "lib": ["DOM", "ES2015"]
   },
-  "include": ["app/static/ts/**/*"]
+  "include": ["*.ts"]
 }

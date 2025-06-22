@@ -11,7 +11,7 @@ async function submitLogin() {
     };
 
     try {
-        const response = await fetch('api/auth/login', {
+        const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData),
@@ -20,8 +20,7 @@ async function submitLogin() {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            flash.show(result.message || 'Usuário logado com sucesso!');
-            form.reset();
+            window.location.href="/";
         } else {
             flash.show(result.message || 'Erro inesperado', 'error');
         }

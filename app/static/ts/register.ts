@@ -21,8 +21,7 @@ async function submitForm() {
         const result: ApiResponse = await response.json();
 
         if (response.ok && result.success) {
-            flash.show(result.message || 'Registrado com sucesso', 'success');
-            form.reset();
+            window.location.href="/";
         } else {
             flash.show(result.error || 'Erro inesperado', 'error');
         }
