@@ -15,9 +15,9 @@
         </form>
 
         <div>
-            <p>Não tem conta? <a href="{{ url_for('auth.register') }}">registre-se</a></p>
+            <p>Não tem conta? <a href="{{ url_for('auth_bp.register') }}">registre-se</a></p>
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='ts/login.ts') }}"></script>
+    <script src="{{ url_for('static', filename='js/login.js') }}" type="module" ></script>
 {% endblock %}

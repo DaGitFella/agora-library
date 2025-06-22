@@ -1,11 +1,15 @@
-from app.db import db
 from enum import Enum
+
 from sqlalchemy import Enum as SQLEnum
+
+from app.db import db
+
 
 class BookStatus(Enum):
     new = 'new'
     used = 'used'
     semi_new = 'semi-new'
+
 
 class Book(db.Model):
     __tablename__ = 'books'

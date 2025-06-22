@@ -6,13 +6,13 @@ const flash = new FlashMessage('flash-messages');
 
 async function submitForm() {
     const formData: RegisterForm = {
-        username: (form.elements.namedItem('username') as HTMLInputElement).value.trim(),
+        name: (form.elements.namedItem('name') as HTMLInputElement).value.trim(),
         email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
         password: (form.elements.namedItem('password') as HTMLInputElement).value.trim(),
     };
 
     try {
-        const response = await fetch('api/auth/register', {
+        const response = await fetch('/api/auth/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData),

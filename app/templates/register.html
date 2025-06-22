@@ -4,8 +4,8 @@
     <div class="d-flex flex-column align-items-center justify-content-center vh-100 w-100">
         <form id="registerForm" class="w-100">
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp">
+                <label for="username" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="name" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
@@ -19,9 +19,9 @@
         </form>
 
         <div>
-            <p>Já tem conta? <a href="{{ url_for('auth.login') }}">logue aqui</a></p>
+            <p>Já tem conta? <a href="{{ url_for('auth_bp.login') }}">logue aqui</a></p>
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='ts/register.ts') }}"></script>
+    <script src="{{ url_for('static', filename='js/register.js') }}" type="module" ></script>
 {% endblock %}

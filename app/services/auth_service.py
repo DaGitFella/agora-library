@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for, jsonify
+from flask import jsonify, redirect, render_template, request, url_for, flash
 from flask_login import login_user, logout_user
 
 from app.db import db
@@ -27,22 +27,19 @@ def login_user_to_session():
 
     login_user(user)
 
-    return redirect(url_for('home.index')), jsonify({
+    flash('usuário logado com sucesso', 'success')
+    return jsonify({
         'success': True,
-        'message': 'usuário logado com sucesso'
-    }), 200
+    })
 
 
 def register_user():
-    if request.method != 'POST':
-        return render_template('register.html')
-
     data = request.get_json()
-    username = data.get('username')
+    name = data.get('name')
     email = data.get('email')
     password = data.get('password')
 
-    if not username or not email or not password:
+    if not name or not email or not password:
         return jsonify({
             'success': False,
             'error': 'Todos os campos são obrigatórios'
@@ -54,7 +51,7 @@ def register_user():
             'error': 'O email já está em uso'
         }), 409
 
-    db_user = User(username=username, email=email, password=password)
+    db_user = User(name=name, email=email, password=password)
 
     db.session.add(db_user)
     db.session.commit()
@@ -62,15 +59,13 @@ def register_user():
 
     login_user(db_user)
 
-    return redirect(url_for('home.index')), jsonify({
+    flash('Usuário registrado com sucesso', 'success')
+    return jsonify({
         'success': True,
-        'message': 'Usuário registrado com sucesso'
-    }), 400
+    })
 
 
 def logout_user_from_session():
     logout_user()
-    return redirect(url_for('home.index')), jsonify({
-        'success': True,
-        'message': 'Usuário deslogado com sucesso'
-    }), 200
+    flash('Usuário deslogado com sucesso', 'success')
+    return redirect(url_for('auth_bp.login'))

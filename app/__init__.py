@@ -2,11 +2,11 @@ import flask_login
 from flask import Flask
 from flask_admin import Admin
 
-from app.controllers.auth_controller import auth_bp
-from app.controllers.home_controller import home_bp
-from app.controllers.user_controller import user_bp
+from app.api import auth_controller
+from app.routes import auth_routes, home_routes, user_routes
 from app.db import db, migrate
-from app.models import user, book
+from app.models import book as book
+from app.models import user as user
 from app.models.user import User
 from config import Config
 
@@ -28,8 +28,9 @@ def create_app(config_class=Config):
 
     login_manager.login_view = 'auth.login'
 
-    app.register_blueprint(home_bp)
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(user_bp, url_prefix='/user')
+    app.register_blueprint(home_routes.home_bp)
+    app.register_blueprint(user_routes.user_bp, url_prefix='/user')
+    app.register_blueprint(auth_routes.auth_bp, url_prefix='/auth')
+    app.register_blueprint(auth_controller.auth_api_bp, url_prefix='/api/auth')
 
     return app

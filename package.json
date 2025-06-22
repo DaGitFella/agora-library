@@ -2,5 +2,24 @@
   "dependencies": {
     "bootstrap": "^5.3.7",
     "typescript": "^5.8.3"
-  }
+  },
+  "name": "agora-library-monolithic",
+  "version": "1.0.0",
+  "description": "Projeto de biblioteca virtual monolítica.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/davibezerra123457/Agora-Library-Monolithic.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://gitlab.com/davibezerra123457/Agora-Library-Monolithic/issues"
+  },
+  "homepage": "https://gitlab.com/davibezerra123457/Agora-Library-Monolithic#readme"
 }
