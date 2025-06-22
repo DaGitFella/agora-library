@@ -1,8 +1,9 @@
-from flask import render_template, request, redirect, url_for, flash
-from flask_login import logout_user, login_user
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import login_user, logout_user
+
+from app.db import db
 from app.models.user import User
 from app.services import user_services
-from app.db import db
 
 
 def login_user_to_session():
@@ -25,6 +26,7 @@ def login_user_to_session():
     login_user(user)
     flash('Usuário logado com sucesso', 'success')
     return redirect(url_for('home.index'))
+
 
 def register_user():
     if request.method != 'POST':
@@ -53,9 +55,8 @@ def register_user():
     flash('usuário registrado com sucesso')
     return redirect(url_for('home.index'))
 
+
 def logout_user_from_session():
     logout_user()
     flash('usuário deslogado com sucesso')
     return redirect(url_for('home.index'))
-
-
