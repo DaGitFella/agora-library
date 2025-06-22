@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}profile{% endblock %}
 {% block content %}
+    <p>id: {{ user.id }}</p>
     <p>nome: {{ user.name }}</p>
     <p>email: {{ user.email }}</p>
+    <button type="button" class="btn btn-danger" id="deleteBtn">Deletar Conta</button>
+
+    <script src="{{ url_for('static', filename='js/delete_user.js') }}", type="module"></script>
 {% endblock %}

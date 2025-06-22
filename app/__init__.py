@@ -31,11 +31,11 @@ def create_app(config_class=Config):
     login_manager.login_view = 'auth.login'
 
     app.register_blueprint(home_routes.home_bp)
-    app.register_blueprint(user_routes.user_bp, url_prefix='/user')
+    app.register_blueprint(user_routes.user_bp, url_prefix='/users')
     app.register_blueprint(auth_routes.auth_bp, url_prefix='/auth')
     app.register_blueprint(auth_controller.auth_controller_bp,
                            url_prefix='/api/auth')
     app.register_blueprint(user_controller.user_controller_bp,
-                           url_prefix='/api/user')
+                           url_prefix='/api/users')
 
     return app

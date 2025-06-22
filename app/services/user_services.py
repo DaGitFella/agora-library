@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, flash
 
 from app.models.user import User
 from app.db import db
@@ -16,20 +16,18 @@ def get_user_or_404(email):
         return db_user
     return None
 
-
 def get_all_users():
     users = User.query.all()
     return users
 
-
 def delete_user():
-    user = db.session.execute(db.select(User).where(User.email == current_user.id)).scalar()
+    user = db.session.execute(db.select(User).where(User.id == current_user.id)).scalar()
     if user:
         db.session.delete(user)
         db.session.commit()
+        flash(f'user {current_user.name} deleted', 'success')
         return jsonify({
             'success': True,
-            'message': f'user {current_user.name} deleted',
         })
 
     return jsonify({
