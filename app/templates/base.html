@@ -15,21 +15,13 @@
 </head>
 <body class="vh-100">
 
-<div class="container vh-100">
+{% if include_header %}
+    {% include 'components/header.html' %}
+{% endif %}
+<main class="vh-100">
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="container mt-3">
-                {% for message in messages %}
-                    <div class="alert alert-info" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-
+    <div id="flash-messages"></div>
     {% block content %}{% endblock %}
-</div>
+</main>
 </body>
 </html>

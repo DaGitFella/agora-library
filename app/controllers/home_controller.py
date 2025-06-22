@@ -5,4 +5,4 @@ home_bp = Blueprint('home', __name__)
 
 @home_bp.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home.html', include_header=True)

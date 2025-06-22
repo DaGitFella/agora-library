@@ -1,5 +1,6 @@
 import flask_login
 from flask import Flask
+from flask_admin import Admin
 
 from app.controllers.auth_controller import auth_bp
 from app.controllers.home_controller import home_bp
@@ -14,6 +15,7 @@ login_manager = flask_login.LoginManager()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+    admin = Admin(app, name='agora_library', template_mode='bootstrap3')
     app.config.from_object(config_class)
 
     db.init_app(app)

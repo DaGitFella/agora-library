@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, jsonify
 from flask_login import login_user, logout_user
 
 from app.db import db
@@ -7,42 +7,52 @@ from app.services import user_services
 
 
 def login_user_to_session():
-    if request.method != 'POST':
-        return render_template('login.html')
-
-    email = request.form.get('email')
-    password = request.form.get('password')
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
 
     user = user_services.get_user_by_email(email)
 
     if not user:
-        flash('Usuário não encontrado', 'danger')
-        return render_template('login.html')
+        return jsonify({
+            'success': False,
+            'error': 'Usuário não encontrado',
+        }), 404
 
     if not user.verify_password(password):
-        flash('Email ou senha incorretos', 'danger')
-        return render_template('login.html')
+        return jsonify({
+            'success': False,
+            'error': 'Email ou senha incorretos'
+        }), 401
 
     login_user(user)
-    flash('Usuário logado com sucesso', 'success')
-    return redirect(url_for('home.index'))
+
+    return redirect(url_for('home.index')), jsonify({
+        'success': True,
+        'message': 'usuário logado com sucesso'
+    }), 200
 
 
 def register_user():
     if request.method != 'POST':
         return render_template('register.html')
 
-    username = request.form.get('username')
-    email = request.form.get('email')
-    password = request.form.get('password')
+    data = request.get_json()
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
 
     if not username or not email or not password:
-        flash('todos os campos são obrigatórios')
-        return redirect(url_for('auth.register'))
+        return jsonify({
+            'success': False,
+            'error': 'Todos os campos são obrigatórios'
+        }), 422
 
-    if user_services.check_if_user_exists(email):
-        flash('usuário já existe')
-        return redirect(url_for('auth.login'))
+    if user_services.check_integrity(email):
+        return jsonify({
+            'success': False,
+            'error': 'O email já está em uso'
+        }), 409
 
     db_user = User(username=username, email=email, password=password)
 
@@ -52,11 +62,15 @@ def register_user():
 
     login_user(db_user)
 
-    flash('usuário registrado com sucesso')
-    return redirect(url_for('home.index'))
+    return redirect(url_for('home.index')), jsonify({
+        'success': True,
+        'message': 'Usuário registrado com sucesso'
+    }), 400
 
 
 def logout_user_from_session():
     logout_user()
-    flash('usuário deslogado com sucesso')
-    return redirect(url_for('home.index'))
+    return redirect(url_for('home.index')), jsonify({
+        'success': True,
+        'message': 'Usuário deslogado com sucesso'
+    }), 200

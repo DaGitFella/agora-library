@@ -1,7 +1,7 @@
 from app.models.user import User
 
 
-def check_if_user_exists(email):
+def check_integrity(email):
     db_user = User.query.filter_by(email=email).first()
     if db_user:
         return True
